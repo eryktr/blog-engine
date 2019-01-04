@@ -5,6 +5,7 @@ confapp==1.0.1
 cycler==0.10.0
 dill==0.2.8.2
 Django==2.1.4
+django-bootstrap4==0.0.7
 django-jfu-pyforms==2.0.9.1
 filelock==3.0.10
 idna==2.8
@@ -16,6 +17,7 @@ numpy==1.15.4
 opencv-python==3.4.4.19
 Orquestra==1.1
 Pillow==5.3.0
+protobuf==3.6.1
 PyForms==4.0.3
 PyForms-GUI==4.0.11
 PyForms-Terminal==4.0.5
@@ -25,7 +27,6 @@ pyparsing==2.3.0
 PyQt5==5.11.3
 PyQt5-sip==4.19.13
 pyreadline==2.1
-pysettings==1.0.0
 python-dateutil==2.7.5
 pytz==2018.7
 QScintilla==2.10.8
