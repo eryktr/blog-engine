@@ -1,21 +1,15 @@
-{% extends "base.html" %}
+{% extends "base_user.html" %}
 
-{% block menu %}
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">New Post</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Your Posts</a>
-        </li>
-    </ul>
+{% block specific_options %}
+    <li class="nav-item">
+        <a class="nav-link" href="#">New Post</a>
+    </li>
 
-    <ul class="navbar-nav no-right">
-        <li class="nav-item">
-            <a class="nav-link" href="#">Sign Out</a>
-        </li>
-    </ul>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Your Posts</a>
+    </li>
+
+    {% block power_features %}
+    {% endblock %}
 {% endblock %}
+
