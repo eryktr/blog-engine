@@ -1,0 +1,21 @@
+{% extends "../base/base.html" %}
+
+{% block content %}
+
+    <div class="alert alert-success">
+        <h3>Success!</h3>
+        <p>
+            You have been successfully registered.
+        </p>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-light" href="{% url "index" %}">Home</a>
+                </div>
+                <div class="col">
+                    <a class="btn btn-light" href="{% url "login" %}">Log in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
