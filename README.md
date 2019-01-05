@@ -20,3 +20,7 @@ Making migrations for ORM:
 	python manage.py makemigrations
 	python manage.py migrate
 	
+Backing up the database:
+
+	mysqldump -u root -p django_blog_db > backup.sql
+	
