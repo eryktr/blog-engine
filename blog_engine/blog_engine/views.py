@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
+from django.contrib.auth.forms import UserCreationForm
 
 
 def index(request):
@@ -13,7 +14,7 @@ def signup(request):
             form.save()
             return render(request, "registration/registration_successful.html")
         else:
-            return redirect("/accounts/signup")
+            return render(request, "registration/register.html", {'form': form})
 
     else:
         form = SignUpForm()
