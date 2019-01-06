@@ -49,4 +49,7 @@ class PasswordChangeView(PasswordContextMixin, FormView):
         self.request.user.set_password(pw)
 
 
+@login_required()
+def show_profile(request):
+    return render(request, "profile/show_profile.html")
 
