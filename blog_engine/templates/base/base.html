@@ -40,7 +40,7 @@
             {% endif %}
 
             <li class="nav-item">
-                <a class="nav-link" href="#"> {{ user.username }} </a>
+                <a class="nav-link" href="{% url 'change_password' %}"> {{ user.username }} </a>
             </li>
 
             {% if user.is_authenticated %}
