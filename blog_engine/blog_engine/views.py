@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import FormView
-from .forms import SignUpForm, ChangePasswordForm
+from .forms import SignUpForm, ChangePasswordForm, ChangeUserForm
 
 
 def index(request):
@@ -51,5 +51,14 @@ class PasswordChangeView(PasswordContextMixin, FormView):
 
 @login_required()
 def show_profile(request):
-    return render(request, "profile/show_profile.html")
-
+    user = request.user
+    if request.method == 'POST':
+        form = ChangeUserForm(request.POST, instance=user)
+        if form.is_valid:
+            form.save()
+            return redirect("index")
+        else:
+            return render(request, "profile/show_profile.html", {'form': form})
+    else:
+        form = ChangeUserForm(initial={'email': user.email, 'first_name': user.first_name, 'last_name': user.last_name}, instance=user)
+        return render(request, "profile/show_profile.html", {'form': form})

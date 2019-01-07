@@ -21,16 +21,18 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#">New Post</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#">Your Posts</a>
+            </li>
         </ul>
         <ul class="navbar-nav no-right">
             {% if perms.content.add_post %}
-                <li class="nav-item">
-                    <a class="nav-link" href="#">New Post</a>
-                </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Your Posts</a>
-                </li>
             {% endif %}
 
             {% if user.is_staff %}
@@ -39,11 +41,12 @@
                 </li>
             {% endif %}
 
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'show_profile' %}"> {{ user.username }} </a>
-            </li>
+
 
             {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'show_profile' %}"> {{ user.username }} </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Sign Out</a>
                 </li>

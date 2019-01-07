@@ -1,7 +1,16 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserChangeForm
 import re
+
+username_field = username = forms.CharField(
+    label="Username:",
+    strip=False,
+    widget=forms.TextInput,
+    help_text="Minimum 5 characters, only letters, digits and underscores allowed. Must start with a letter,"
+              "Can't end with an underscore. "
+)
 
 
 def validate_password(self, input1, input2):
@@ -97,3 +106,10 @@ class ChangePasswordForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
+
+
+class ChangeUserForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['email', 'first_name', 'last_name']
