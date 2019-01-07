@@ -41,3 +41,22 @@ def view_post(request, post_id):
         return render(request, no_permission_template)
     post = Post.objects.get(id=post_id)
     return render(request, "content/view_post.html", {'post': post})
+
+
+@login_required()
+def edit_post(request, post_id):
+    post = Post.objects.get(id=post_id)
+    if not (request.user.has_perm("content.edit_post") or request.user == post.author):
+        return render(request, no_permission_template)
+    if request.method == "POST":
+        form = NewPostForm(request.user, request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            form.save_m2m()
+            return redirect("index")
+        else:
+            return render(request, "content/edit_post.html", {'form': form})
+
+    else:
+        form = NewPostForm(request.user, instance=post)
+        return render(request, "content/edit_post.html", {'form': form})
