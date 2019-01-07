@@ -7,10 +7,12 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import FormView
 from .forms import SignUpForm, ChangePasswordForm, ChangeUserForm
+from content.models import Post
 
 
 def index(request):
-    return render(request, "index/index.html")
+    posts = Post.objects.all()
+    return render(request, "index/index.html", {'posts': posts})
 
 
 def signup(request):
@@ -60,5 +62,6 @@ def show_profile(request):
         else:
             return render(request, "profile/show_profile.html", {'form': form})
     else:
-        form = ChangeUserForm(initial={'email': user.email, 'first_name': user.first_name, 'last_name': user.last_name}, instance=user)
+        form = ChangeUserForm(initial={'email': user.email, 'first_name': user.first_name, 'last_name': user.last_name},
+                              instance=user)
         return render(request, "profile/show_profile.html", {'form': form})

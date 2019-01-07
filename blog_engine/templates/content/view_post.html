@@ -1,10 +1,10 @@
 {% extends "../base/base.html" %}
-
+{% block title %}
+    {{ post.title }}
+{% endblock %}
 {% block content %}
-    <h1>Recent Posts:</h1>
-    <hr>
-    {% for post in posts %}
-        <div class="container">
+    <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col">
                     <h1>{{ post.title }}</h1>
@@ -12,7 +12,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    {{ post.trimmed_content|safe }}
+                    {{ post.content|safe }}
                 </div>
             </div>
             <div class="row">
@@ -21,6 +21,11 @@
                 </div>
                 <div class="col">
                     Published: {{ post.post_date }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    tags: {% for tag in post.tags.all %} <b> {{ tag }} &nbsp; &nbsp; </b> {% endfor %}
                 </div>
             </div>
             <div class="row">
@@ -36,13 +41,9 @@
                     </div>
                 {% endif %}
 
-                <div class="col-1">
-                    <a class="btn btn-sm btn-info" href="{% url "view_post" post_id=post.id%}">read more</a>
-                </div>
-
 
             </div>
         </div>
+    </div>
         <hr>
-    {% endfor %}
 {% endblock %}

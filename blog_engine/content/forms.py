@@ -1,14 +1,18 @@
 from django import forms
-from .models import Post
+from .models import Post, Tag
 import datetime
 
 
 class NewPostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
-        super(forms.ModelForm, self).__init__(*args, **kwargs)
-
+        super(NewPostForm, self).__init__(*args, **kwargs)
+        self.fields['tags'].widget = forms.widgets.CheckboxSelectMultiple()
+        self.fields['tags'].queryset = Tag.objects.all()
 
     content = forms.CharField(
         label="Content:",
@@ -19,17 +23,18 @@ class NewPostForm(forms.ModelForm):
                 'cols': 150
             }
         )
-
     )
 
-    class Meta:
-        model = Post
-        fields = ['title', 'content', 'tags']
+    @staticmethod
+    def trim_content(content):
+        length = 500
+        return content[:length] + "..." if len(content) > length else content
 
     def save(self, commit=True):
         post = super().save(commit=False)
         post.post_date = datetime.datetime.now()
         post.last_update = datetime.datetime.now()
+        post.trimmed_content = self.trim_content(post.content)
         post.author = self.user
         if commit:
             post.save()

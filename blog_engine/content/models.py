@@ -5,16 +5,20 @@ from django.contrib.auth.models import User
 
 class Tag(models.Model):
     name = models.CharField(max_length=30)
-    description = models.TextField
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
 
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
+    trimmed_content = models.TextField(blank=True)
     post_date = models.DateTimeField()
     last_update = models.DateTimeField()
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=False, )
 
     class Meta:
         unique_together = ('title', 'author')
