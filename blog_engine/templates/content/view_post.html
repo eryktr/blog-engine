@@ -29,6 +29,11 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col">
+                    last updated: {{ post.last_update }}
+                </div>
+            </div>
+            <div class="row">
                 {% if  perms.content.delete_post  or post.author == user %}
                     <div class="col-1">
                         <a class="btn btn-sm btn-danger" href="{% url 'delete_post' post_id=post.id %}">delete</a>
@@ -45,5 +50,5 @@
             </div>
         </div>
     </div>
-        <hr>
+    <hr>
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect
-from .forms import NewPostForm
+from .forms import NewPostForm, EditPostForm
 from .models import Post
 
 no_permission_template = "shared/no_permission.html"
@@ -49,7 +49,7 @@ def edit_post(request, post_id):
     if not (request.user.has_perm("content.edit_post") or request.user == post.author):
         return render(request, no_permission_template)
     if request.method == "POST":
-        form = NewPostForm(request.user, request.POST, instance=post)
+        form = EditPostForm(request.user, request.POST, instance=post)
         if form.is_valid():
             form.save()
             form.save_m2m()
@@ -58,5 +58,5 @@ def edit_post(request, post_id):
             return render(request, "content/edit_post.html", {'form': form})
 
     else:
-        form = NewPostForm(request.user, instance=post)
+        form = EditPostForm(request.user, instance=post)
         return render(request, "content/edit_post.html", {'form': form})

@@ -39,3 +39,14 @@ class NewPostForm(forms.ModelForm):
         if commit:
             post.save()
         return post
+
+
+class EditPostForm(NewPostForm):
+    def save(self, commit=True):
+        post = super(forms.ModelForm, self).save(commit=False)
+        post.last_update = datetime.datetime.now()
+        post.trimmed_content = self.trim_content(post.content)
+        if commit:
+            post.save()
+        return post
+
