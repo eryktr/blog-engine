@@ -58,8 +58,8 @@ class SignUpForm(forms.ModelForm):
 
     def clean_username(self):
         un = self.cleaned_data.get("username")
-        pattern = "^[A-Za-z][A-Za-z_0-9]*[a-zA-Z0-9]$"
-        match = re.search(pattern, un)
+        pattern = "[A-Za-z][A-Za-z_0-9]*[a-zA-Z0-9]"
+        match = re.fullmatch(pattern, un)
         if not match:
             raise forms.ValidationError("Username doesn't meet the criteria.")
         if len(un) < 5:
