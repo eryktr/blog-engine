@@ -3,11 +3,55 @@
 {% block content %}
     <h1>Recent Posts:</h1>
     <hr>
+    <div class="order-filter">
+        <form method="get" action="{{ request.path }}">
+            <div class="order-form">
+                <label>
+                    Order by:
+                    <br>
+                        {% for ordering in orderings %}
+                            <label>
+                                <input type="radio" name="orderby"
+                                    value="{{ ordering.0 }}"
+                                    {% if orderby == ordering.0 %}
+                                        checked
+                                    {% endif %}
+                                >
+                                {{ ordering.1 }}
+                            </label>
+                        {% endfor %}
+                </label>
+            </div>
+            <div class="filter-form">
+                <label>
+                    Filter by tag:
+                    <br>
+                        <select multiple name="filter_tag" class="tag-select" size="3">
+                            {% for tag in tags %}
+                                <option
+                                        value="{{ tag.name }}"
+                                        {% if tag.name in tag_filters %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                    {{ tag.name }}</option>
+                            {% endfor %}
+                        </select>
+                </label>
+                <input type="submit" value="OK"/>
+            </div>
+        </form>
+    </div>
+    <hr>
     {% for post in posts %}
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h1>{{ post.title }}</h1>
+                    <h1>
+                        <a href="{% url "view_post" post_id=post.id%}" class="post-title-link">
+                            {{ post.title }}
+                        </a>
+                    </h1>
                 </div>
             </div>
             <div class="row">
@@ -35,12 +79,6 @@
                         <a class="btn btn-sm btn-warning" href="{% url 'delete_post' post_id=post.id %}">edit</a>
                     </div>
                 {% endif %}
-
-                <div class="col-1">
-                    <a class="btn btn-sm btn-info" href="{% url "view_post" post_id=post.id%}">read more</a>
-                </div>
-
-
             </div>
         </div>
         <hr>

@@ -1,0 +1,23 @@
+.post-title-link {
+    color: black;
+    text-decoration: none;
+}
+
+.post-title-link:hover, .post-title-link:focus {
+    color: black;
+    text-decoration: underline black;
+}
+
+.order-form {
+    display: inline-block;
+    margin: 0 20px;
+}
+
+.filter-form {
+    display: inline-block;
+    margin: 0 20px;
+}
+
+.tag-select {
+    width: 100px
+}

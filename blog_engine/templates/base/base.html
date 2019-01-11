@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <link href="{% static "css/bootstrap.css" %}" rel="stylesheet"/>
+    <link href="{% static "css/styles.css" %}" rel="stylesheet"/>
     <script src="{% static 'js/bootstrap.js' %}"></script>
 
     <meta charset="UTF-8">
@@ -40,7 +41,7 @@
 
             {% if user.is_staff %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Admin panel</a>
+                    <a class="nav-link" href="{% url 'admin:index' %}">Admin panel</a>
                 </li>
             {% endif %}
 

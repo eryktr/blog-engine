@@ -5,14 +5,44 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
-from django.views.generic import FormView
+from django.views.generic import FormView, ListView
 from .forms import SignUpForm, ChangePasswordForm, ChangeUserForm
-from content.models import Post
+try:
+    from ..content.models import Post, Tag
+except ValueError:
+    from content.models import Post, Tag
 
 
-def index(request):
-    posts = Post.objects.all()
-    return render(request, "index/index.html", {'posts': posts})
+class PostsView(ListView):
+    template_name = "index/index.html"
+    context_object_name = "posts"
+    ordering = ["-post_date"]
+    paginate_by = 10
+
+    def get_queryset(self):
+        new_queryset = Post.objects
+        filter_tag = self.request.GET.getlist('filter_tag')
+        if filter_tag is not None:
+            new_queryset = Post.objects.filter(tags__name__in=filter_tag)
+        order = self.request.GET.get('orderby', "none")
+        new_queryset = new_queryset.order_by("-post_date")
+        if order != "none":
+            new_queryset = new_queryset.order_by(order)
+        return new_queryset.distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['orderby'] = self.request.GET.get('orderby')
+        context['orderings'] = [
+            ("none", "None"),
+            ("title", "Title asc"),
+            ("-title", "Title desc"),
+            ("author", "Author asc"),
+            ("-author", "Author desc"),
+        ]
+        context["tags"] = Tag.objects.values("name")
+        context["tag_filters"] = self.request.GET.getlist("filter_tag")
+        return context
 
 
 def signup(request):
