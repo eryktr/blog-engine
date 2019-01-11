@@ -5,11 +5,15 @@
 {% endblock %}
 
 {% block content %}
-    <h1> {{ user.username }}</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Update</button>
-    </form>
-    <a href="{% url "change_password" %}" class="btn btn-danger">Change password</a>
+    <div style="padding: 20px">
+        <h1> {{ user.username }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <button type="submit">Update</button>
+        </form>
+        <a href="{% url "change_password" %}" class="btn btn-danger">Change password</a>
+    </div>
 {% endblock %}
