@@ -9,34 +9,34 @@
                 <label>
                     Order by:
                     <br>
-                        {% for ordering in orderings %}
-                            <label>
-                                <input type="radio" name="orderby"
-                                    value="{{ ordering.0 }}"
-                                    {% if orderby == ordering.0 %}
-                                        checked
-                                    {% endif %}
-                                >
-                                {{ ordering.1 }}
-                            </label>
-                        {% endfor %}
+                    {% for ordering in orderings %}
+                        <label>
+                            <input type="radio" name="orderby"
+                                   value="{{ ordering.0 }}"
+                                   {% if orderby == ordering.0 %}
+                                       checked
+                                   {% endif %}
+                            >
+                            {{ ordering.1 }}
+                        </label>
+                    {% endfor %}
                 </label>
             </div>
             <div class="filter-form">
                 <label>
                     Filter by tag:
                     <br>
-                        <select multiple name="filter_tag" class="tag-select" size="3">
-                            {% for tag in tags %}
-                                <option
-                                        value="{{ tag.name }}"
-                                        {% if tag.name in tag_filters %}
-                                            selected
-                                        {% endif %}
-                                    >
-                                    {{ tag.name }}</option>
-                            {% endfor %}
-                        </select>
+                    <select multiple name="filter_tag" class="tag-select" size="3">
+                        {% for tag in tags %}
+                            <option
+                                    value="{{ tag.name }}"
+                                    {% if tag.name in tag_filters %}
+                                    selected
+                                    {% endif %}
+                            >
+                                {{ tag.name }}</option>
+                        {% endfor %}
+                    </select>
                 </label>
                 <input type="submit" value="OK"/>
             </div>
@@ -48,17 +48,25 @@
             <div class="row">
                 <div class="col">
                     <h1>
-                        <a href="{% url "view_post" post_id=post.id%}" class="post-title-link">
+                        <a href="{% url "view_post" post_id=post.id %}" class="post-title-link">
                             {{ post.title }}
                         </a>
                     </h1>
+                    Tags:
+                    {% ifnotequal post.tags.count 0 %}
+                        {{ post.tags.all|join:', ' }}
+                    {% else %}
+                        <i>none</i>
+                    {% endifnotequal %}
                 </div>
             </div>
+            <div class="row"><div class="col"><hr></div></div>
             <div class="row">
                 <div class="col">
                     {{ post.trimmed_content|safe }}
                 </div>
             </div>
+            <div class="row"><div class="col"><hr></div></div>
             <div class="row">
                 <div class="col">
                     Author: {{ post.author }}
@@ -66,19 +74,6 @@
                 <div class="col">
                     Published: {{ post.post_date }}
                 </div>
-            </div>
-            <div class="row">
-                {% if  perms.content.delete_post  or post.author == user %}
-                    <div class="col-1">
-                        <a class="btn btn-sm btn-danger" href="{% url 'delete_post' post_id=post.id %}">delete</a>
-                    </div>
-                {% endif %}
-
-                {% if  perms.content.edit_post  or post.author == user %}
-                    <div class="col-1">
-                        <a class="btn btn-sm btn-warning" href="{% url 'delete_post' post_id=post.id %}">edit</a>
-                    </div>
-                {% endif %}
             </div>
         </div>
         <hr>
