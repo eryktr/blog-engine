@@ -17,7 +17,7 @@ class PostsView(ListView):
     template_name = "index/index.html"
     context_object_name = "posts"
     ordering = ["-post_date"]
-    paginate_by = 10
+    paginate_by = 2
 
     def get_queryset(self):
         new_queryset = Post.objects
