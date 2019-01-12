@@ -21,8 +21,9 @@ class PostsView(ListView):
 
     def get_queryset(self):
         new_queryset = Post.objects
-        filter_tag = self.request.GET.getlist('filter_tag')
-        if filter_tag is not None:
+        filter_tag = self.request.GET.getlist('filter_tag', None)
+        filter_tag_any = self.request.GET.get("filter_tag")
+        if filter_tag_any is not None:
             new_queryset = Post.objects.filter(tags__name__in=filter_tag)
         order = self.request.GET.get('orderby', "none")
         new_queryset = new_queryset.order_by("-post_date")
@@ -53,7 +54,6 @@ def signup(request):
             return render(request, "registration/registration_successful.html")
         else:
             return render(request, "registration/register.html", {'form': form})
-
     else:
         form = SignUpForm()
         return render(request, "registration/register.html", {'form': form})

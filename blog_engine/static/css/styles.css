@@ -21,3 +21,23 @@
 .tag-select {
     width: 100px
 }
+
+.order-filter {
+    width: 200px;
+    position: fixed;
+    right: 10px;
+    top: 130px;
+    bottom: 10px;
+}
+
+main.posts {
+    margin-right: 210px;
+}
+
+.content {
+    position: relative;
+}
+
+.post-text {
+    overflow-wrap: break-word;
+}
