@@ -1,6 +1,5 @@
 from django import forms
 from .models import Post, Tag
-import datetime
 
 
 class NewPostForm(forms.ModelForm):
@@ -25,28 +24,15 @@ class NewPostForm(forms.ModelForm):
         )
     )
 
-    @staticmethod
-    def trim_content(content):
-        length = 500
-        return content[:length] + "..." if len(content) > length else content
-
     def save(self, commit=True):
         post = super().save(commit=False)
-        post.post_date = datetime.datetime.now()
-        post.last_update = datetime.datetime.now()
-        post.trimmed_content = self.trim_content(post.content)
         post.author = self.user
         if commit:
             post.save()
+            self.save_m2m()
         return post
 
 
 class EditPostForm(NewPostForm):
-    def save(self, commit=True):
-        post = super(forms.ModelForm, self).save(commit=False)
-        post.last_update = datetime.datetime.now()
-        post.trimmed_content = self.trim_content(post.content)
-        if commit:
-            post.save()
-        return post
+    pass
 

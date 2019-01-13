@@ -70,7 +70,7 @@
                     </div>
                     <div class="row">
                         <div class="col post-text">
-                            {{ post.trimmed_content|safe }}
+                            {{ post.content|truncatechars_html:500|safe }}
                         </div>
                     </div>
                     <div class="row">
