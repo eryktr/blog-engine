@@ -19,6 +19,10 @@ Making migrations for ORM:
 	create database django_blog_db
 	python manage.py makemigrations
 	python manage.py migrate
+
+Creating user groups:
+
+    python manage.py create_groups
 	
 Backing up the database:
 
