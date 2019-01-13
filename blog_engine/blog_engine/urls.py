@@ -1,8 +1,11 @@
+from functools import partial
+
 from django.contrib import admin
 from django.urls import path, include
-from . import views
-from . import user_urls
+from django.views.defaults import permission_denied
 
+from . import user_urls
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -13,3 +16,5 @@ urlpatterns = [
     path('profile/', include(user_urls)),
     path('content/', include('content.urls'))
 ]
+
+handler403 = partial(permission_denied, template_name="shared/no_permission.html")
