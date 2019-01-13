@@ -6,7 +6,9 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import FormView, ListView
+
 from .forms import SignUpForm, ChangePasswordForm, ChangeUserForm
+
 try:
     from ..content.models import Post, Tag
 except ValueError:
