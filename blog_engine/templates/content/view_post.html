@@ -17,7 +17,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    Author: {{ post.author }}
+                    Author: <span class="author">{{ post.author }}</span>
                 </div>
                 <div class="col">
                     Published: {{ post.post_date }}
@@ -36,17 +36,19 @@
             <div class="row">
                 {% if  perms.content.delete_post  or post.author == user %}
                     <div class="col-1">
-                        <a class="btn btn-sm btn-danger" href="{% url 'delete_post' post_id=post.id %}">delete</a>
+                        <form method="post" action="{% url 'delete_post' post_id=post.id %}"
+                              onsubmit="return confirm('Are you sure you want to delete the post?')">
+                            {% csrf_token %}
+                            <label><input type="submit" value="delete" class="btn btn-sm btn-danger"></label>
+                        </form>
                     </div>
                 {% endif %}
 
                 {% if  perms.content.edit_post  or post.author == user %}
                     <div class="col-1">
-                        <a class="btn btn-sm btn-warning" href="{% url 'delete_post' post_id=post.id %}">edit</a>
+                        <a class="btn btn-sm btn-warning" href="{% url 'edit_post' post_id=post.id %}">edit</a>
                     </div>
                 {% endif %}
-
-
             </div>
         </div>
     </div>

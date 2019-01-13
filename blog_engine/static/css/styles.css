@@ -41,3 +41,7 @@ main.posts {
 .post-text {
     overflow-wrap: break-word;
 }
+
+.author {
+    font-weight: bold;
+}
