@@ -50,6 +50,36 @@
                     </div>
                 {% endif %}
             </div>
+            <div class="row">
+                <div class="col">
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <br>
+                    <h4>Comments</h4>
+                    <hr>
+                </div>
+            </div>
+            {% for comment in post.comment_set.all %}
+                <div class="row">
+                    <div class="col comment">
+                        <span class="comment-text">{{ comment.content|safe }}</span>
+                        <br>
+                        <span class="author">
+                            {% if comment.author %}
+                                {{ comment.author }}
+                            {% else %}
+                                <em>Anonymous</em>
+                            {% endif %}
+                        </span>, {{ comment.published }}
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
     <hr>
