@@ -20,6 +20,7 @@ class Command(BaseCommand):
             "add_comment"
         ])
         normal_users_group.permissions.set(normal_user_permissions)
+
         moderators_group, _ = Group.objects.get_or_create(name="moderators")
         moderator_permissions = permissions.filter(codename__in=[
             "change_post",
@@ -27,6 +28,26 @@ class Command(BaseCommand):
             "delete_comment",
             "add_tag",
             "change_tag",
-            "delete_tag"
+            "delete_tag",
+            "view_user"
         ])
         moderators_group.permissions.set(moderator_permissions)
+
+        admins_group, _ = Group.objects.get_or_create(name="admins")
+        admin_permissions = permissions.filter(codename__in=[
+            "change_post",
+            "delete_post",
+            "change_comment",
+            "delete_comment",
+            "add_tag",
+            "change_tag",
+            "delete_tag",
+            "view_user",
+            "change_user",
+            "delete_user"
+        ])
+        admins_group.permissions.set(admin_permissions)
+
+        superadmins_group, _ = Group.objects.get_or_create(name="superadmins")
+        superadmin_permissions = permissions.all()
+        superadmins_group.permissions.set(superadmin_permissions)
