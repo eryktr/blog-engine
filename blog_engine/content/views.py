@@ -43,15 +43,15 @@ def view_post(request, post_id):
 @login_required()
 def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    if not (request.user.has_perm("content.edit_post") or request.user == post.author):
+    if not (request.user.has_perm("content.change_post") or request.user == post.author):
         raise PermissionDenied
     if request.method == "POST":
-        form = EditPostForm(request.user, request.POST, instance=post)
+        form = EditPostForm(post.author, request.POST, instance=post)
         if form.is_valid():
             form.save()
             return redirect("index")
         else:
             return render(request, "content/edit_post.html", {'form': form})
     else:
-        form = EditPostForm(request.user, instance=post)
+        form = EditPostForm(post.author, instance=post)
         return render(request, "content/edit_post.html", {'form': form})

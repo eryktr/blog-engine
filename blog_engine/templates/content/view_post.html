@@ -44,9 +44,9 @@
                     </div>
                 {% endif %}
 
-                {% if perms.content.edit_post or post.author == user %}
+                {% if perms.content.change_post or post.author == user %}
                     <div class="col-1">
-                        <a class="btn btn-sm btn-warning" href="{% url 'edit_post' post_id=post.id %}">edit</a>
+                        <a class="btn btn-sm btn-warning" href="{% url 'edit_post' post_id=post.id %}">Edit</a>
                     </div>
                 {% endif %}
             </div>
