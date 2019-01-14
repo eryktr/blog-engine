@@ -7,6 +7,10 @@
             <hr>
         </header>
         <div class="order-filter">
+            <form method="get" action="{% url 'search' %}">
+                <label><input type="text" name="title"></label>
+                <button>Search</button>
+            </form>
             <form method="get" action="{{ request.path }}">
                 <div class="order-form">
                     <label>

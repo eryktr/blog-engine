@@ -14,7 +14,8 @@ urlpatterns = [
     path("", views.PostsView.as_view(), name="index"),
     path('accounts/', include('django.contrib.auth.urls',)),
     path('profile/', include(user_urls)),
-    path('content/', include('content.urls'))
+    path('content/', include('content.urls')),
+    path('search/', views.PostSearchView.as_view(), name='search')
 ]
 
 handler403 = partial(permission_denied, template_name="shared/no_permission.html")

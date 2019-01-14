@@ -21,8 +21,8 @@ class PostsView(ListView):
     ordering = ["-post_date"]
     paginate_by = 2
 
-    def get_queryset(self):
-        new_queryset = Post.objects
+    def get_queryset(self, new_queryset=None):
+        new_queryset = new_queryset if new_queryset is not None else Post.objects
         filter_tag = self.request.GET.getlist('filter_tag')
         filter_tag_any = self.request.GET.get("filter_tag")
         if filter_tag_any is not None:
@@ -53,8 +53,8 @@ class PostsView(ListView):
 
 
 class UserPostsView(PostsView):
-    def get_queryset(self):
-        return super().get_queryset().filter(author=self.request.user)
+    def get_queryset(self, new_queryset=None):
+        return super().get_queryset(new_queryset).filter(author=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(kwargs=kwargs)
@@ -111,3 +111,11 @@ def show_profile(request):
         form = ChangeUserForm(initial={'email': user.email, 'first_name': user.first_name, 'last_name': user.last_name},
                               instance=user)
         return render(request, "profile/show_profile.html", {'form': form})
+
+
+class PostSearchView(PostsView):
+    def get_queryset(self, new_queryset=None):
+        new_queryset = new_queryset if new_queryset is not None else Post.objects
+        if 'title' in self.request.GET:
+            new_queryset = new_queryset.filter(title__icontains=self.request.GET['title'])
+        return super().get_queryset(new_queryset)
