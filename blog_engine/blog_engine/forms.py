@@ -2,7 +2,7 @@ import re
 
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 username_field = username = forms.CharField(
     label="Username:",
@@ -71,6 +71,8 @@ class SignUpForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
+            user.groups.add(Group.objects.get(name="normal_users"))
+            self.save_m2m()
         return user
 
 
