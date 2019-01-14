@@ -28,9 +28,9 @@
                 </li>
             {% endif %}
 
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and not user_posts_only %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Your Posts</a>
+                    <a class="nav-link" href="{% url "show_user_posts" %}">Your Posts</a>
                 </li>
             {% endif %}
         </ul>

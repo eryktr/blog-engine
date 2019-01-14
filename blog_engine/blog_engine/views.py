@@ -23,28 +23,42 @@ class PostsView(ListView):
 
     def get_queryset(self):
         new_queryset = Post.objects
-        filter_tag = self.request.GET.getlist('filter_tag', None)
+        filter_tag = self.request.GET.getlist('filter_tag')
         filter_tag_any = self.request.GET.get("filter_tag")
         if filter_tag_any is not None:
             new_queryset = Post.objects.filter(tags__name__in=filter_tag)
         order = self.request.GET.get('orderby', "none")
-        new_queryset = new_queryset.order_by("-post_date")
         if order != "none":
             new_queryset = new_queryset.order_by(order)
+        if order.find("post_date") == -1:
+            new_queryset = new_queryset.order_by("-post_date")
+
         return new_queryset.distinct()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['orderby'] = self.request.GET.get('orderby')
         context['orderings'] = [
-            ("none", "None"),
-            ("title", "Title asc"),
-            ("-title", "Title desc"),
-            ("author", "Author asc"),
-            ("-author", "Author desc"),
+            ("none", "None", True),  # True for being available in user_only_posts mode
+            ("post_date", "Date asc", True),
+            ("-post_date", "Date desc", True),
+            ("title", "Title asc", True),
+            ("-title", "Title desc", True),
+            ("author", "Author asc", False),
+            ("-author", "Author desc", False),
         ]
         context["tags"] = Tag.objects.values("name")
         context["tag_filters"] = self.request.GET.getlist("filter_tag")
+        return context
+
+
+class UserPostsView(PostsView):
+    def get_queryset(self):
+        return super().get_queryset().filter(author=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(kwargs=kwargs)
+        context["user_posts_only"] = True
         return context
 
 

@@ -13,15 +13,17 @@
                         Order by:
                         <br>
                         {% for ordering in orderings %}
-                            <label>
-                                <input type="radio" name="orderby"
-                                       value="{{ ordering.0 }}"
-                                        {% if orderby == ordering.0 %}
-                                       checked
-                                        {% endif %}
-                                >
-                                {{ ordering.1 }}
-                            </label>
+                            {% if not user_posts_only or ordering.2 %}
+                                <label>
+                                    <input type="radio" name="orderby"
+                                           value="{{ ordering.0 }}"
+                                            {% if orderby == ordering.0 %}
+                                           checked
+                                            {% endif %}
+                                    >
+                                    {{ ordering.1 }}
+                                </label>
+                            {% endif %}
                         {% endfor %}
                     </label>
                 </div>
