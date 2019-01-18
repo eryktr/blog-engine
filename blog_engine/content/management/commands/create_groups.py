@@ -20,6 +20,7 @@ class Command(BaseCommand):
             "add_comment"
         ])
         normal_users_group.permissions.set(normal_user_permissions)
+        normal_users_group.save()
 
         moderators_group, _ = Group.objects.get_or_create(name="moderators")
         moderator_permissions = permissions.filter(codename__in=[
@@ -32,6 +33,7 @@ class Command(BaseCommand):
             "view_user"
         ])
         moderators_group.permissions.set(moderator_permissions)
+        moderators_group.save()
 
         admins_group, _ = Group.objects.get_or_create(name="admins")
         admin_permissions = permissions.filter(codename__in=[
@@ -47,7 +49,9 @@ class Command(BaseCommand):
             "delete_user"
         ])
         admins_group.permissions.set(admin_permissions)
+        admins_group.save()
 
         superadmins_group, _ = Group.objects.get_or_create(name="superadmins")
         superadmin_permissions = permissions.all()
         superadmins_group.permissions.set(superadmin_permissions)
+        superadmins_group.save()
